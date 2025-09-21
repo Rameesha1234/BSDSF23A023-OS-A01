@@ -1,0 +1,45 @@
+# Git workflow quick commands
+
+# 1. Create repository on GitHub named: BSDSF23A023-OS-A01 (ALL UPPERCASE)
+# 2. Clone it locally, copy these files into the cloned folder, then:
+
+git checkout -b multifile-build
+git add .
+git commit -m "Initial multifile build implementation"
+git push -u origin multifile-build
+
+# Create tag and release for multifile:
+git tag -a v0.1.1-multifile -m "Version 0.1.1 - Multi-file build"
+git push origin v0.1.1-multifile
+
+# Merge to main and create static-build branch
+git checkout main
+git merge multifile-build
+git checkout -b static-build
+git add .
+git commit -m "Static library support"
+git push -u origin static-build
+
+git tag -a v0.2.1-static -m "Version 0.2.1 - Static library build"
+git push origin v0.2.1-static
+
+# Merge and dynamic build branch
+git checkout main
+git merge static-build
+git checkout -b dynamic-build
+git commit -am "Dynamic library support"
+git push -u origin dynamic-build
+
+git tag -a v0.3.1-dynamic -m "Version 0.3.1 - Dynamic library build"
+git push origin v0.3.1-dynamic
+
+# Man pages branch and final release
+git checkout main
+git merge dynamic-build
+git checkout -b man-pages
+git add man man/man3
+git commit -m "Add man pages and install target"
+git push -u origin man-pages
+
+git tag -a v0.4.1-final -m "Version 0.4.1 - Final Build"
+git push origin v0.4.1-final
